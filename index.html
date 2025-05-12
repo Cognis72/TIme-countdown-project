@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom Countdown</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 50px;
+      background-color: #111;
+      color: white;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+    }
+    #timer {
+      font-size: 48px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Custom Countdown Timer</h1>
+
+  <label for="minutes">Minutes:</label>
+  <input type="number" id="minutes" min="0" value="1">
+
+  <label for="seconds">Seconds:</label>
+  <input type="number" id="seconds" min="0" value="0">
+
+  <br>
+  <button onclick="startCountdown()">Start</button>
+  <button onclick="resetCountdown()">Reset</button>
+
+  <div id="timer">00:00</div>
+
+  <script>
+    let countdownInterval;
+    let totalSeconds = 0;
+
+    function startCountdown() {
+      clearInterval(countdownInterval);
+      const minutes = parseInt(document.getElementById('minutes').value) || 0;
+      const seconds = parseInt(document.getElementById('seconds').value) || 0;
+      totalSeconds = minutes * 60 + seconds;
+
+      updateDisplay();
+
+      countdownInterval = setInterval(() => {
+        if (totalSeconds <= 0) {
+          clearInterval(countdownInterval);
+          document.getElementById('timer').textContent = "Time's up!";
+          return;
+        }
+        totalSeconds--;
+        updateDisplay();
+      }, 1000);
+    }
+
+    function resetCountdown() {
+      clearInterval(countdownInterval);
+      document.getElementById('timer').textContent = "00:00";
+    }
+
+    function updateDisplay() {
+      const mins = Math.floor(totalSeconds / 60);
+      const secs = totalSeconds % 60;
+      document.getElementById('timer').textContent =
+        String(mins).padStart(2, '0') + ":" + String(secs).padStart(2, '0');
+    }
+  </script>
+
+</body>
+</html>
